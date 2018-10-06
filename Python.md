@@ -9,6 +9,6 @@
    Depois aplicar a função, ex: math.cos(), math.pi, math.sqrt()...
 
 #Para definir uma função nova:
-   def nome_da_funcao()
+   def nome_da_funcao():
        print()
 
