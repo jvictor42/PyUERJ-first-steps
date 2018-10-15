@@ -1,3 +1,5 @@
+#Aula 4 exemplos
+#Criação de funções
 def meuverso(palavras): #definiu a função com parametro	
     print(palavras)
     print(palavras)     #Escreveu o que precisa ser feito, no caso print 2 vezes do parametro
