@@ -12,3 +12,4 @@
    def nome_da_funcao():
        print()
 
+https://projects.codeclubworld.org/pt-BR/10_python/01/Teaching%20Turtles.html
