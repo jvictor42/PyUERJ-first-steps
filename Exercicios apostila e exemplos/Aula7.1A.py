@@ -1,4 +1,5 @@
 #Aula 7 exercicio 1 apostila
+#Fazer um histograma
 import turtle
 def draw_bar(t, height,col):
     """ Get turtle t to draw one bar, of height. """
