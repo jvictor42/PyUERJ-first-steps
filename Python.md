@@ -1,4 +1,15 @@
 # Introduction to python
+
+UERJ - Universidade do Estado do Rio de Janeiro
+
+ Instituto de Física Armando Dias Tavares
+
+DFNAE - Departamento de Física Nuclear e Altas Energias
+
+Tópicos Especiais de Física B IV - Introdução a Python
+
+Professoras Helena Malbouisson e Clemencia Mora
+
 #Para abrir o Python, no terminal comando: 
    python3.
 
