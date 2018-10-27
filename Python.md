@@ -26,3 +26,5 @@ Professoras Helena Malbouisson e Clemencia Mora
 https://projects.codeclubworld.org/pt-BR/10_python/01/Teaching%20Turtles.html
 
 livro texto: http://greenteapress.com/thinkpython2/thinkpython2.pdf
+
+site : http://dfnae.fis.uerj.br/twiki/bin/view/DFNAE/IntroPython
