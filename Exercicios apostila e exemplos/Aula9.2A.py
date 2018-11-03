@@ -29,7 +29,7 @@ while dm <= 7:
         dm = dist_var(min_hora(1),vel,vel2)
         dist_list.append(dm)
     else:
-        dm = dist_cons(min_hora(1), vel) + dm
+        dm = dist_cons(min_hora(1), vel2) + dm
         dist_list.append(dm)
         
 print(dist_list)
