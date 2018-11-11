@@ -26,13 +26,13 @@ def mod_raio(x_0,y_0):
 
 #Funções pẽndulo de mola. Os parametros x_0 e v_0 não representam os iniciais do sistema nem o eixo, mas os anteriores na contagem. 
 def aceleracao(k,m,r_mod,xn,l0,v_mod):
-    an = -(k/m)(1-(l0/r_mod)+(v_mod/r_mod)**2)*xn
+    an = -(k/m)*(1-(l0/r_mod)+(v_mod/r_mod)**2)*xn
     return an
 def velocidade(var_t,v_0,an):
     vn = v_0 +an*var_t
-    return vn_x
+    return vn
 def posicao(var_t,x_0,vn):
-    xn = x_0+vn+var_t
+    xn = x_0+vn*var_t
     return xn
 
 #Definindo as listas 
@@ -76,22 +76,23 @@ velx=0
 velz=0
 
 for i in range(0,t_fin):
-	if t_cont <=t_fin:
+	if t_cont <= t_fin:
+
+	    velx = velocidade(dt,velx,ax)
+	    velz = velocidade(dt,velz,az)
+	    x_ini = posicao(dt,x_ini,velx)
+	    z_ini = posicao(dt,z_ini,velz)
 	    m_raio = mod_raio(x_ini,z_ini) #modulo do raio
 	    m_vel = mod_vel(velx,velz)     #modulo da velocidade
 	    m_acel = mod_acel(ax,az) #modulo da aceleração
+	    t_cont = t_cont + i*dt #contador de tempo
 	    list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
 	    ax = aceleracao(kons,mass,m_raio,x_ini,lnat,m_vel) #acel. em x
-	    az =-g-aceleracao(kons,mass,m_raio,z_ini,lnat,m_vel) #acel. em z
-	    velx = velx + velocidade(dt,velx,ax)
-	    velz = velz + velocidade(dt,velz,az)
-	    x_ini = x_ini + posicao(dt,x_ini,velx)
-	    z_ini = z_ini + posicao(dt,z_ini,velz)
-	    t_cont = t_cont + i*dt
+	    az = - g - aceleracao(kons,mass,m_raio,z_ini,lnat,m_vel) #acel. em z
+	
+'''cond='s'
+condu = input('Deseja ir para o pêndulo simples? s/n ')
 
-cond='s'
-condu = input('Deseja ir para o pêndulo simples? s/n')
-
-'''if cond == condu:
+if cond == condu:
     print('##### Solução do movimento de um pêndulo simples #####')'''
     
