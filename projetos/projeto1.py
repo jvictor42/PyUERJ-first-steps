@@ -7,11 +7,11 @@ import math
 import matplotlib.pyplot as plt
 import turtle
 
-#Definindo as funções:
+#Definindo as funções-----------------------
 g=9.780318   #no nivel do mar
 dt=0.05      #variação de tempo
 
-#Funções modulo
+#Funções modulo---------------------
 def mod_acel(a_x,a_y):
     a_mod = math.sqrt(a_x**2 + a_y**2)
     return a_mod
@@ -35,17 +35,27 @@ def posicao(var_t,x_0,vn):
     xn = x_0+vn*var_t
     return xn
 
-#Definindo as listas 
-list_z = []
-list_x = []
-list_velz = []
-list_velx = []
-list_mod_vel = []
-list_time = []
-list_mod_raio = []
-list_mod_acel = []
+#Função dos gráficos----------------
+def plot_graf(listax,listay,nomex,nomey):
+	plt.plot(listax,listay)
+	plt.xlabel(nomex)
+	plt.ylabel(nomey)
+	plt.show()
+	plt.close()
 
-#Função adiciona lista
+#Definindo as listas de dados, master(aninhada) e labels------------------------------- 
+s1=list_z = []
+s2=list_x = []
+s3=list_velz = []
+s4=list_velx = []
+s5=list_mod_vel = []
+s6=list_time = []
+s7=list_mod_raio = []
+s8=list_mod_acel = []
+list_master = [s1,s2,s3,s4,s5,s6,s7,s8]
+list_label = ["Altura (m)","Distância x (m)","Vel. em z (m/s)","Vel. em x (m/s)","Velocidade (m/s)","Tempo (s)","Posição (m)","Aceleração (m/s²)"]
+
+#Função adiciona lista-------------------
 def list_ad(l1,l2,l3,l4,l5,l6,l7,l8):
     list_z.append(l1)
     list_x.append(l2)
@@ -56,7 +66,7 @@ def list_ad(l1,l2,l3,l4,l5,l6,l7,l8):
     list_time.append(l7)
     list_mod_acel.append(l8)
 
-#Usuário
+#Usuário------------------------
 print('Entre com os parametros do problema.')
 mass = float(input(' Massa do objeto em kg: '))
 kons = float(input(' Constante elastica da mola em N/m: '))
@@ -68,7 +78,7 @@ print('Qual intervalo de tempo de oscilação em segundos?')
 ####t_ini = float(input(' tempo inicial: '))
 t_fin = int(input(' tempo final: '))
 
-#Estrutura sequencial
+#Estrutura sequencial-------------------
 ax=0
 az=0
 t_cont=0
@@ -77,7 +87,6 @@ velz=0
 
 for i in range(0,t_fin):
 	if t_cont <= t_fin:
-
 	    velx = velocidade(dt,velx,ax)
 	    velz = velocidade(dt,velz,az)
 	    x_ini = posicao(dt,x_ini,velx)
@@ -89,9 +98,19 @@ for i in range(0,t_fin):
 	    list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
 	    ax = aceleracao(kons,mass,m_raio,x_ini,lnat,m_vel) #acel. em x
 	    az = - g - aceleracao(kons,mass,m_raio,z_ini,lnat,m_vel) #acel. em z
-	
-'''cond='s'
-condu = input('Deseja ir para o pêndulo simples? s/n ')
+
+#Interação gráfica------------------
+cond1=input('Deseja visualizar no gráfico? [s/n]: ')
+while cond1=='s': #Aqui da a possibilidade de criar os gráficos.
+	print('Escolha entre as opções abaixo: ')
+	for (i, valor) in enumerate(list_label):
+	    print(i, valor)
+	opx=int(input('Eixo x '))
+	opz=int(input('Eixo z '))
+	plot_graf(list_master[opx], list_master[opz], list_label[opx], list_label[opz])	
+	cond1=input('Deseja visualizar outro gŕafico? [s/n]: ')
+print('Bye')	
+
 
 if cond == condu:
     print('##### Solução do movimento de um pêndulo simples #####')'''
