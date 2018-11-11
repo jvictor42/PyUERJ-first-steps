@@ -36,19 +36,38 @@ def posicaoX(var_t,x_0,vn_x):
     return xn
 
 #Definindo as listas vazias
-list_vely = []
+list_z = []
+list_x = []
+list_velz = []
 list_velx = []
 list_mod_vel = []
 list_time = []
 list_r_mod = []
 list_a_mod = []
 
+#Usuário
+print('Entre com os parametros do problema.')
+mass = float(input(' Massa do objeto: '))
+kons = float(input(' Constante elastica da mola: '))
+lnat = float(input(' Comprimento natural da mola: '))
+print('Quais coordenadas de posição inicial do pêndulo?')
+x_ini = float(input('Em x: '))
+list_x.append(x_ini)
+z_ini = float(input('Em z: '))
+list_z.append(z_ini)
+print('Qual intervalo de tempo de oscilação?')
+t_ini = float(input(' tempo inicial: '))
+list_time.append(t_ini)
+t_fin = float(input(' tempo final: '))
+
 #Estrutura sequencial
 a_cont=0
 v_cont=0
 r_cont=0
 
-while 
+cond='s'
+condu = input('Deseja ir para o pêndulo simples? s/n')
 
-
-
+'''if cond == condu:
+    print('##### Solução do movimento de um pêndulo simples #####')'''
+    
