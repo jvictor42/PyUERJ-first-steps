@@ -1,15 +1,30 @@
-#PROJETO 1
-print('##### Solução do movimento de um pêndulo de mola #####')
-#Devemos pedir que o usuário coloque os valores de k,x0,l0. O intervalor de tempo deve ser definido pelo usuário.
+#PROJETO 1 
+#Nesse projeto criei um programa que resolve numericamente um pendulo de mola e um pendulo simples.
 
 #Módulos usados ----------
 import math
 import matplotlib.pyplot as plt
 import turtle
 
-#Definindo as funções-----------------------
+#----------Definindo as funções-----------------------
 g=9.780318   #no nivel do mar
 dt=0.05      #variação de tempo
+
+#Função que gera arquivo de saida --------
+def table_txt(list1,list2):
+    arq = open("Result_pendulo.txt","w")   
+    for (i, valor) in enumerate(list1):
+        if i<=8:
+            print(i)
+            arq.write(list2[i])
+            int_list = list1[i]
+            s = len(int_list)
+            for t in range(s):
+                print(t,'d')
+                arq.write(str(int_list[i])+'   ')
+            else:
+                break
+                arq.close()
 
 #Funções modulo---------------------
 def mod_acel(a_x,a_y):
@@ -67,6 +82,10 @@ def list_ad(l1,l2,l3,l4,l5,l6,l7,l8):
     list_mod_acel.append(l8)
 
 #Usuário------------------------
+print('       Programa numérico pendulo        \n',
+      'by José Victor    ','     © Jacks coorp')
+print('##### Solução do movimento de um pêndulo de mola #####')
+
 print('Entre com os parametros do problema.')
 mass = float(input(' Massa do objeto em kg: '))
 kons = float(input(' Constante elastica da mola em N/m: '))
@@ -109,9 +128,13 @@ while cond1=='s': #Aqui da a possibilidade de criar os gráficos.
 	opz=int(input('Eixo z '))
 	plot_graf(list_master[opx], list_master[opz], list_label[opx], list_label[opz])	
 	cond1=input('Deseja visualizar outro gŕafico? [s/n]: ')
-print('Bye')	
+print('Bye')
 
+#Saida dos dados ---------------------------	
+cond2=input('Deseja salvar os resultados em arquivo? [s/n] ')
+while cond2=='s':
+	table_txt(list_master,list_label)
 
-if cond == condu:
+'''#if cond == condu:
     print('##### Solução do movimento de um pêndulo simples #####')'''
     
