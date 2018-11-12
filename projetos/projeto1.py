@@ -4,12 +4,8 @@
 #Módulos usados ----------
 import math
 import matplotlib.pyplot as plt
-import turtle
 
 #----------Definindo as funções-----------------------
-g=9.780318   #no nivel do mar
-dt=0.05      #variação de tempo
-
 #Função que gera arquivo de saida --------
 def table_txt(list1,list2):
     arq = open("Result_pendulo.txt","w")   
@@ -21,10 +17,10 @@ def table_txt(list1,list2):
             s = len(int_list)
             for t in range(s):
                 print(t,'d')
-                arq.write(str(int_list[i])+'   ')
-            else:
-                break
-                arq.close()
+                arq.write('    '+str(int_list[i])+'    ')
+        else:
+            break
+            arq.close()
 
 #Funções modulo---------------------
 def mod_acel(a_x,a_y):
@@ -41,7 +37,7 @@ def mod_raio(x_0,y_0):
 
 #Funções pẽndulo de mola. Os parametros x_0 e v_0 não representam os iniciais do sistema nem o eixo, mas os anteriores na contagem. 
 def aceleracao(k,m,r_mod,xn,l0,v_mod):
-    an = -(k/m)*(1-(l0/r_mod)+(v_mod/r_mod)**2)*xn
+    an = -((k/m)*(r_mod-l0)+(v_mod**2)/r_mod)*(xn/r_mod)
     return an
 def velocidade(var_t,v_0,an):
     vn = v_0 +an*var_t
@@ -81,11 +77,11 @@ def list_ad(l1,l2,l3,l4,l5,l6,l7,l8):
     list_time.append(l7)
     list_mod_acel.append(l8)
 
-#Usuário------------------------
+#-----------Usuário------------------------
+print('\n','\n')
 print('       Programa numérico pendulo        \n',
-      'by José Victor    ','     © Jacks coorp')
-print('##### Solução do movimento de um pêndulo de mola #####')
-
+      'by José Victor    ','     © Jacks coorp \n', 
+      '##### Solução do movimento de um pêndulo de mola #####')
 print('Entre com os parametros do problema.')
 mass = float(input(' Massa do objeto em kg: '))
 kons = float(input(' Constante elastica da mola em N/m: '))
@@ -103,20 +99,21 @@ az=0
 t_cont=0
 velx=0
 velz=0
+g=9.780318   #no nivel do mar
+dt=0.05      #variação de tempo
 
-for i in range(0,t_fin):
-	if t_cont <= t_fin:
-	    velx = velocidade(dt,velx,ax)
-	    velz = velocidade(dt,velz,az)
-	    x_ini = posicao(dt,x_ini,velx)
-	    z_ini = posicao(dt,z_ini,velz)
-	    m_raio = mod_raio(x_ini,z_ini) #modulo do raio
-	    m_vel = mod_vel(velx,velz)     #modulo da velocidade
-	    m_acel = mod_acel(ax,az) #modulo da aceleração
-	    t_cont = t_cont + i*dt #contador de tempo
-	    list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
-	    ax = aceleracao(kons,mass,m_raio,x_ini,lnat,m_vel) #acel. em x
-	    az = - g - aceleracao(kons,mass,m_raio,z_ini,lnat,m_vel) #acel. em z
+while t_cont <= t_fin:
+    velx = velocidade(dt,velx,ax)
+    velz = velocidade(dt,velz,az)
+    x_ini = posicao(dt,x_ini,velx)
+    z_ini = posicao(dt,z_ini,velz)
+    m_raio = mod_raio(x_ini,z_ini) #modulo do raio
+    m_vel = mod_vel(velx,velz)     #modulo da velocidade
+    m_acel = mod_acel(ax,az) #modulo da aceleração
+    t_cont = t_cont + dt #contador de tempo
+    list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
+    ax = aceleracao(kons,mass,m_raio,x_ini,lnat,m_vel) #acel. em x
+    az = - g - aceleracao(kons,mass,m_raio,z_ini,lnat,m_vel) #acel. em z
 
 #Interação gráfica------------------
 cond1=input('Deseja visualizar no gráfico? [s/n]: ')
@@ -137,4 +134,5 @@ while cond2=='s':
 
 '''#if cond == condu:
     print('##### Solução do movimento de um pêndulo simples #####')'''
+    
     
