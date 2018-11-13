@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 #----------Definindo as funções-----------------------
 #Função que gera arquivo de saida --------
 def table_txt(l_generic,l_nomes,name):
-	'''Essa função permite a criação de arquivos de saida txt, com nome definido pelo usuário'''
     arq = open(name+".txt","w")
     for n in l_nomes:
         arq.write(2*' '+ n +' ')
@@ -23,6 +22,7 @@ def modulo(g1,g2):
     '''Essa função calcula o módulo de um vetor genérico, usando a equação:\n
             |G| = sqrt(G1² + G2²)        '''
     g_mod = math.sqrt(g1**2 + g2**2)
+    g_mod=round(g_mod,4)
     return g_mod
 
 def teta_degrees(x_0,z_0):
@@ -42,10 +42,12 @@ def teta_degrees(x_0,z_0):
 def aceleracao(k,m,r_mod,l0,v_mod):
     '''Função aceleração do pêndulo sem definição de direção'''
     an = -(k*(r_mod-l0)/m+(v_mod**2)/r_mod)
+    an = round(an,4)
     return an
 def incremento(var_t,g_0,pn):
     '''Função genérica de incremento. Soma o termo anterior a um novo, realizado em um pequeno intervalo de tempo.'''
     gn = g_0 + pn*var_t
+    gn = round(gn,4)
     return gn
 
 #Função dos gráficos----------------
@@ -139,4 +141,3 @@ print('Bye')
 
 '''#if cond == condu:
     print('##### Solução do movimento de um pêndulo simples #####')'''
-    
