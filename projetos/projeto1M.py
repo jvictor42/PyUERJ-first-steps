@@ -7,56 +7,46 @@ import matplotlib.pyplot as plt
 
 #----------Definindo as funções-----------------------
 #Função que gera arquivo de saida --------
-def table_txt(list1,list2):
-    arq = open("Result_pendulo.txt","w")   
-    for (i, valor) in enumerate(list1):
-        if i<=8:
-            print(i)
-            arq.write(list2[i])
-            int_list = list1[i]
-            s = len(int_list)
-            for t in range(s):
-                print(t,'d')
-                arq.write('    '+str(int_list[i])+'    ')
-        else:
-            break
-            arq.close()
+def table_txt(l_generic,l_nomes,name):
+	'''Essa função permite a criação de arquivos de saida txt, com nome definido pelo usuário'''
+    arq = open(name+".txt","w")
+    for n in l_nomes:
+        arq.write(2*' '+ n +' ')
+    arq.write('\n')
+    for (i,valor) in enumerate(l_generic):
+        arq.write(2*' '+ str(s1[i])+2*' '+ str(s2[i])+2*' '+ str(s3[i]) +2*' '+ str(s4[i])+2*' '+ str(s5[i])+2*' '+ str(s6[i])+2*' '+ str(s7[i])+2*' '+ str(s8[i]))
+        arq.write('\n')
+    arq.close()
 
-#Funções modulo---------------------
-def mod_acel(a_x,a_z):
-    a_mod = math.sqrt(a_x**2 + a_z**2)
-    return a_mod
-
-def mod_vel(v_x,v_z):
-    v_mod = math.sqrt(v_x**2 + v_z**2)
-    return v_mod
-
-def mod_raio(x_0,z_0):
-    r_mod = math.sqrt(x_0**2 + z_0**2)
-    return r_mod
+#Função modulo e angulo---------------------
+def modulo(g1,g2):
+    '''Essa função calcula o módulo de um vetor genérico, usando a equação:\n
+            |G| = sqrt(G1² + G2²)        '''
+    g_mod = math.sqrt(g1**2 + g2**2)
+    return g_mod
 
 def teta_degrees(x_0,z_0):
-	teta=0
-	if (z_0<=0):
-		teta = math.atan(-1*x_0/z_0)
-	elif (x_0>=0 and z_0>0):
-		teta = math.pi/2 + math.atan(z_0/x_0)
-	elif (x_0<=0 and z_0>0):
-		teta = -1*math.pi/2 + math.atan(z_0/x_0)
-	teta1=math.degrees(teta)
-	list_te.append(teta1) #LEMBRAR DE TIRAR
-	return teta
+    '''Função que calcula o angulo em função da posição do objeto em um instante de tempo.'''
+    teta=0
+    if z_0<=0: #quadrante 4 e 3
+        teta = math.atan(x_0/z_0)
+    elif x_0<=0 and z_0>0: #quandrante 2 
+        teta = math.atan(z_0/x_0) - math.pi/2
+    elif x_0>=0 and z_0>0: #quadrante 1 
+        teta = math.pi/2 + math.atan(z_0/x_0)
+    teta1=math.degrees(teta)
+    list_te.append(teta1) #LEMBRAR DE TIRAR
+    return teta
 
-#Funções pẽndulo de mola. Os parametros x_0 e v_0 não representam os iniciais do sistema nem o eixo, mas os anteriores na contagem. 
+#Funções pẽndulo de mola. Os parametros g_0 e gn são genéricos. 
 def aceleracao(k,m,r_mod,l0,v_mod):
+    '''Função aceleração do pêndulo sem definição de direção'''
     an = -(k*(r_mod-l0)/m+(v_mod**2)/r_mod)
     return an
-def velocidade(var_t,v_0,an):
-    vn = v_0 +an*var_t
-    return vn
-def posicao(var_t,x_0,vn):
-    xn = x_0+vn*var_t
-    return xn
+def incremento(var_t,g_0,pn):
+    '''Função genérica de incremento. Soma o termo anterior a um novo, realizado em um pequeno intervalo de tempo.'''
+    gn = g_0 + pn*var_t
+    return gn
 
 #Função dos gráficos----------------
 def plot_graf(listax,listay,nomex,nomey):
@@ -77,7 +67,7 @@ s6=list_time = []
 s7=list_mod_raio = []
 s8=list_mod_acel = []
 list_master = [s1,s2,s3,s4,s5,s6,s7,s8]
-list_label = ["Altura (m)","Distância x (m)","Vel. em z (m/s)","Vel. em x (m/s)","Velocidade (m/s)","Tempo (s)","Posição (m)","Aceleração (m/s²)"]
+list_label = ["Eixo Z(m)","Eixo x(m)","Vel. z(m/s)","Vel. x(m/s)", "Modulo velocidade(m/s)","Tempo(s)","Posição(m)","Aceleração(m/s²)"]
 
 #Função adiciona lista-------------------
 def list_ad(l1,l2,l3,l4,l5,l6,l7,l8):
@@ -116,22 +106,22 @@ g=9.780318   #no nivel do mar
 dt=0.05      #variação de tempo
 
 while t_cont<=t_fin:
-    velx = velocidade(dt,velx,ax)
-    velz = velocidade(dt,velz,az)
-    x_ini = posicao(dt,x_ini,velx)
-    z_ini = posicao(dt,z_ini,velz)
-    m_raio = mod_raio(x_ini,z_ini) #modulo do raio
-    m_vel = mod_vel(velx,velz)     #modulo da velocidade
-    m_acel = mod_acel(ax,az) #modulo da aceleração
-    t_cont = t_cont + dt #contador de tempo
+    velx = incremento(dt,velx,ax)             #incremento em Vx
+    velz = incremento(dt,velz,az)             #incremento em Vz
+    x_ini = incremento(dt,x_ini,velx)         #incremento em X
+    z_ini = incremento(dt,z_ini,velz)         #incremento em Z
+    m_raio = modulo(x_ini,z_ini)              #modulo do raio
+    m_vel = modulo(velx,velz)                 #modulo da velocidade
+    m_acel = modulo(ax,az)                    #modulo da aceleração
+    t_cont = t_cont + dt                      #contador de tempo
     list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
-    theta=teta_degrees(x_ini,z_ini) #Angulo no instante t+n*dt
+    theta=teta_degrees(x_ini,z_ini)                           #Angulo no instante t+n*dt
     ax = aceleracao(kons,mass,m_raio,lnat,m_vel)*(math.sin(theta)) #acel. em x
     az = - g - aceleracao(kons,mass,m_raio,lnat,m_vel)*(math.cos(theta)) #acel. em z
 
 #Interação gráfica------------------
 cond1=input('Deseja visualizar no gráfico? [s/n]: ')
-while cond1=='s': #Aqui da a possibilidade de criar os gráficos.
+while cond1=='s': 
 	print('Escolha entre as opções abaixo: ')
 	for (i, valor) in enumerate(list_label):
 	    print(i, valor)
@@ -139,12 +129,13 @@ while cond1=='s': #Aqui da a possibilidade de criar os gráficos.
 	opz=int(input('Eixo z '))
 	plot_graf(list_master[opx], list_master[opz], list_label[opx], list_label[opz])	
 	cond1=input('Deseja visualizar outro gŕafico? [s/n]: ')
-print('Bye')
 
 #Saida dos dados ---------------------------	
 cond2=input('Deseja salvar os resultados em arquivo? [s/n] ')
-while cond2=='s':
-	table_txt(list_master,list_label)
+if cond2=='s':
+	n_arq=input('Nome do arquivo de saida: ')
+	table_txt(list_x,list_label,n_arq)
+print('Bye')
 
 '''#if cond == condu:
     print('##### Solução do movimento de um pêndulo simples #####')'''
