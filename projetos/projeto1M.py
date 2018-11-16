@@ -127,7 +127,7 @@ while t_cont<=t_fin:
     list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
     
 #------------Animação do pêndulo------------------
-'''# Limite da imagem em função do tamanho da mola
+# Limite da imagem em função do tamanho da mola
 def anime(n):
     spring.set_data([ 0.0, list_x[n] ], [ 0.0, list_z[n] ])
     mass.set_data([ list_x[n] ], [list_z[n]])
@@ -147,7 +147,7 @@ plt.title('Pendulo de mola')
 
 ani = FuncAnimation(fig, anime, n_f, interval= 0.001, blit=True)
 plt.show()
-plt.close()'''
+plt.close()
 
 #--------------Interação gráfica------------------
 cond1=input('Deseja visualizar no gráfico? [s/n]: ')
