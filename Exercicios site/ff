@@ -29,7 +29,9 @@ def modulo(g1,g2):
 
 def teta_degrees(x_0,z_0):
     '''Função que calcula o angulo em função da posição do objeto em um instante de tempo.'''
-    if z_0<=0: #quadrante 4 e 3
+    if z_0==0:
+        teta = -math.atan(x_0/0.0001)
+    elif z_0<0: #quadrante 4 e 3
         teta = -math.atan(x_0/z_0)
     elif x_0<=0 and z_0>0: #quandrante 2 
         teta = math.atan(z_0/x_0) - math.pi/2
@@ -39,17 +41,22 @@ def teta_degrees(x_0,z_0):
     list_te.append(teta1) #LEMBRAR DE TIRAR
     return teta
 
-#Funções pẽndulo de mola. Os parametros g_0 e gn são genéricos. 
+#Funções pêndulo de mola e simples. Os parametros g_0 e gn são genéricos. 
 def aceleracao(k,m,r_mod,l0,v_mod):
-    '''Função aceleração do pêndulo sem definição de direção'''
-    an = (2*k*(r_mod-l0)/m) - g*math.cos(theta)
+    '''Função aceleração do pêndulo simples e de mola, sem definição de direção. Ela serve para o caso simples, quando o parametro k=0 e para mola, quando v_mod=0'''
+    an = (bin3)*(2*k*(r_mod-l0)/m) - (bin1)*g*math.cos(theta) - (bin2)*2*(v_mod*v_mod)/l0
     an = round(an,3)
     return an
+
 def incremento(var_t,g_0,pn):
     '''Função genérica de incremento. Soma o termo anterior a um novo, realizado em um pequeno intervalo de tempo.'''
     gn = g_0 + pn*var_t
     gn = round(gn,3)
     return gn
+
+def energia(k,m,r_mod,l0,v_mod):
+    en = k*((r_mod-l0)*(r_mod-l0))/2 +m*g*r_mod + m*(v_mod*v_mod)/2
+    return en
 
 #Função dos gráficos----------------
 def plot_graf(listax,listay,nomex,nomey):
@@ -84,25 +91,61 @@ def list_ad(l1,l2,l3,l4,l5,l6,l7,l8):
     list_time.append(l7)
     list_mod_acel.append(l8)
 
-#-----------Usuário------------------------
+#---------------USUÁRIO ------------------------
+cond0=0
 print('\n','\n')
-print('       Programa numérico pendulo        \n',
-      'by José Victor    ','     © Jacks coorp \n', 
-      '##### Solução do movimento de um pêndulo de mola #####')
-print('Entre com os parametros do problema.')
-mass = float(input(' Massa do objeto em kg: '))
-kons = float(input(' Constante elastica da mola em N/m: '))
-lnat = float(input(' Comprimento natural da mola em m: '))
-print('Quais coordenadas de posição inicial do pêndulo em m?')
-x_ini = float(input('Em x: '))
-x_ini = round(x_ini,3)
-z_ini = float(input('Em z: '))
-z_ini = round(z_ini,3)
-print('Qual intervalo de tempo de oscilação em segundos?')
-####t_ini = float(input(' tempo inicial: '))
-t_fin = int(input(' tempo final: '))
+print('       ','Programa numérico pendulo \n',
+      'by José Victor    ','     © Jacks coorp \n')
+while cond0 ==1 or 2:
+	print('       ','Menu incial \n Digite 1 para Pêndulo de Mola e 2 para Pêndulo simples.')
+	cond0 = int(input('====> '))
+#Pendulo de mola parametros:
+	if cond0==1:
+		print('##### Solução do movimento de um pêndulo de mola #####')
+		print('Entre com os parametros do problema.')
+		mass = float(input(' Massa do objeto em kg: '))
+		kons = float(input(' Constante elastica da mola em N/m: '))
+		lnat = float(input(' Comprimento natural da mola em m: '))
+		print('Quais coordenadas de posição inicial do pêndulo em m?')
+		x_ini = float(input('Em x: '))
+		x_ini = round(x_ini,3)
+		z_ini = float(input('Em z: '))
+		z_ini = round(z_ini,3)
+		print('Qual tempo de oscilação em segundos?')
+		t_fin = int(input(' tempo final: '))
+#condições para formatação pendulo de mola ------
+		bin1 = 1
+		bin2 = 0  #Condição para função funcionar no p.mola.
+		bin3 = 1
+		string_energ = 'mgr + (m|v|²)/2 + [k(r-l0)²]/2 = cte'
+		break
 
-#Estrutura sequencial-------------------
+#Pendulo de simples parametros:
+	if cond0==2:
+		print('##### Solução do movimento de um pêndulo simples #####')
+		print('Entre com os parametros do problema.')
+		mass = float(input(' Massa do objeto em kg: '))
+		lnat = float(input(' Comprimento do fio em m: '))		
+		theta = float(input('Qual angulo em ° de inclinação em relação ao eixo do pêndulo? '))
+		theta = math.pi*(theta/180)
+		x_ini = float(math.sin(theta)*lnat)
+		x_ini = round(x_ini,3)
+		z_ini = float(math.cos(theta)*lnat)
+		z_ini = round(z_ini,3)	
+		print('As posições iniciais são x={}m e z={}m'.format(x_ini,z_ini))	
+		print('Qual tempo de oscilação em segundos?')
+		t_fin = int(input(' tempo final: '))
+#condições para formatação pendulo simples -----
+		kons = 0
+		bin1 = -1
+		bin2 = -1 #Condição para função funcionar no p.Simples
+		bin3 = 0
+		string_energ = 'mgr + (m|v|²)/2 = cte'
+		break
+	else:
+		print('Opção invalida. \n')
+
+#--------Estrutura sequencial------------------
 ax=0.000
 az=0.000
 t_cont=0.000
@@ -115,16 +158,31 @@ while t_cont<=t_fin:
     velx = incremento(dt,velx,ax)             #incremento em Vx
     velz = incremento(dt,velz,az)             #incremento em Vz
     x_ini = incremento(dt,x_ini,velx)         #incremento em X
-    z_ini = incremento(dt,z_ini,velz)         #incremento em Z    
+    z_ini = incremento(dt,z_ini,velz)         #incremento em Z
+    theta=teta_degrees(x_ini,z_ini)           #Angulo no instante t+n*dt    
     m_acel = modulo(ax,az)                    #modulo da aceleração
     m_vel = modulo(velx,velz)                 #modulo da velocidade
     m_raio = modulo(x_ini,z_ini)              #modulo do raio
-    theta=teta_degrees(x_ini,z_ini)           #Angulo no instante t+n*dt
     t_cont = t_cont + dt                      #contador de tempo
     t_cont = round(t_cont,3)
     ax = - aceleracao(kons,mass,m_raio,lnat,m_vel)*(math.sin(theta)) #acel. em x
     az = - g + aceleracao(kons,mass,m_raio,lnat,m_vel)*(math.cos(theta)) #acel. em z
     list_ad(z_ini,x_ini,m_raio,velz,velx,m_vel,t_cont,m_acel) #adiciona nas listas
+
+#------Conservação de energia------------
+n_q = len(s7)
+ei = energia(kons,mass,s7[0],lnat,s5[0])  
+ei = round(ei,3) #energia inicial
+ef = energia(kons,mass,s7[5],lnat,s5[5])
+ef = round(ef,3) #energia final
+print('\n',7*' ',' Energia do sistema\n', 
+      'Todas as forças envolvidas são conservativas, isso significa que a energia deve se conservar. \n',
+       9*' ',string_energ,'\n	\n')         
+print('Energia inicial = {} J e Energia final = {} J.'.format(ei,ef))
+if ei == ef:
+    print('Energia se conserva!')
+else:
+    print('A energia não se conservou. Se diminuir o intervalo de contagem de tempo, o resultado torna-se mais preciso e verá que a a energia se conserva')
 
 #--------------Interação gráfica------------------
 cond1=input('Deseja visualizar no gráfico? [s/n]: ')
@@ -163,12 +221,8 @@ if cond3=='s':
 	plt.xlabel('Eixo X(m)')
 	plt.ylabel('Eixo Z(m)')
 	plt.title('Pendulo de mola')
-	ani = FuncAnimation(fig, anime, n_f, blit=True)
+	ani = FuncAnimation(fig, anime, n_f, interval=0.006, blit=True)
 	plt.show()
 	plt.close()
 
-print('Bye')
-
-'''#if cond == condu:
-    print('##### Solução do movimento de um pêndulo simples #####')'''
-    
+print('Bye')    
