@@ -26,7 +26,7 @@ def modulo(g1,g2):
     '''Essa função calcula o módulo de um vetor genérico, usando a equação:\n
             |G| = sqrt(G1² + G2²)        '''
     g_mod = math.sqrt(g1*g1 + g2*g2)
-    g_mod=round(g_mod,3)         #Limitar resultado a 4 casas decimais
+    g_mod=round(g_mod,3)         #round(var,n) Limita resultado da variavel em n casas decimais.
     return g_mod
 
 def teta_degrees(x_0,z_0):
@@ -47,7 +47,7 @@ def teta_degrees(x_0,z_0):
 #Funções pêndulo de mola e simples. Os parametros g_0 e gn são genéricos. 
 def aceleracao(k,m,r_mod,l0,v_mod):
     '''Função aceleração do pêndulo simples e de mola, sem definição de direção. Ela serve para o caso simples, quando o parametro k=0 e para mola, quando v_mod=0'''
-    an = (bin3)*(2*k*(r_mod-l0)/m) - (bin1)*g*math.cos(theta) - (bin2)*(v_mod*v_mod)/l0
+    an = (bin3)*(2*k*(r_mod-l0)/m) - (bin1)*g*math.cos(theta) - (bin2)*(v_mod*v_mod)/l0 #bin são variaveis de 0 e -1, usadas pra transformar esse pedaço da função aceleração, no caso simples ou elástico.
     an = round(an,3)
     return an
 
@@ -88,7 +88,7 @@ print('\n','\n')
 print('       ','Programa numérico pendulo \n',
       'by José Victor    ','     © Jacks coorp \n')
 cond4='s'
-while cond4=='s':                  #Condição de loop (fim - inicio do programa)
+while cond4=='s':                  #Condição de loop (fim - inicio do programa).PS: só funciona se não rodar animação.
 	cond0=1
 	while cond0 ==1 or 2:
 		print('       ','Menu incial \n Digite 1 para Pêndulo de Mola e 2 para Pêndulo simples.')
@@ -215,7 +215,7 @@ while cond4=='s':                  #Condição de loop (fim - inicio do programa
 
 	#------------Animação do pêndulo------------------
 	print('ALERTA. Função em fase de teste. Pode dar erro ao fechar a animação.')
-	cond3=input('Deseja ver animação do pêndulo? [s/n] ')
+	cond3=input('Deseja ver animação do pêndulo? [s/n]: ')
 	if cond3=='s':
 		#Origem = plt.plot([ 0.0 ], [ 0.0 ], 'ro')
 		fig, ax = plt.subplots()
@@ -242,6 +242,6 @@ while cond4=='s':                  #Condição de loop (fim - inicio do programa
 		ani = FuncAnimation(fig, anime,n_q , interval=0.0001, init_func=init, blit=True)
 		plt.show()
 		plt.close()
-	cond4=input('Deseja voltar para o menu inicial? [s/n] ')
+	cond4=input('Deseja voltar para o menu inicial? [s/n]: ')
 	print('\n')
-print('Bye')      
+print('Bye') 
