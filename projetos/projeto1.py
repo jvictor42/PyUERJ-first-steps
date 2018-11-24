@@ -235,11 +235,11 @@ while cond4=='s':                  #Condição de loop (fim - inicio do programa
 		    mass.set_data([ list_x[n] ], [list_z[n]])
 		    ln.set_data(xdata[n], ydata[n])
 		    return spring, mass
-		time=t_fin*200
+		
 		plt.xlabel('Eixo X(m)')
 		plt.ylabel('Eixo Z(m)')
 		plt.title(sistema)
-		ani = FuncAnimation(fig, anime,time , interval=0.0001, init_func=init, blit=True)
+		ani = FuncAnimation(fig, anime,n_q , interval=0.0001, init_func=init, blit=True)
 		plt.show()
 		plt.close()
 	cond4=input('Deseja voltar para o menu inicial? [s/n] ')
