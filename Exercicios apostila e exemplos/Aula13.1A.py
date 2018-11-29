@@ -11,7 +11,7 @@ def histograma(l1,l2,l3):
 	z = l3
 	fig, axs = plt.subplots(1, 3, sharey=True, tight_layout=True)
 
-	axs[0].hist(x,'age', bins=n_bins)
+	axs[0].hist(x, bins=n_bins)
 	axs[1].hist(y, bins=n_bins)
 	axs[2].hist(z, bins=n_bins)
 	plt.show()
