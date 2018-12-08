@@ -1,20 +1,23 @@
-#Exercicio 3 Aula 14
+#Aula 14 exercicio 3
 #Transformando em modulo.
 
-def read_files(name):
+def read_files(name,par):
 	arq = open(name,'r')
 	line = arq.readlines()
-	cut = line[0].strip().split('\t').copy()  #usado no try
+	cut = line[0].strip().split(par).copy()  #usado no try
 	size = len(cut)
 	dicionary = {}
 	for i in range(size):
 		#i=i+1
 		dicionary[i]=[]
 	for l in line:
-		l = l.strip().split('\t')
+		l = l.strip().split(par)
 		for (i,valor) in enumerate(l):
 			#i=i+1
-			dicionary[i].append(valor)
+			try:
+				dicionary[i].append(float(valor))
+			except:
+				dicionary[i].append(valor)
 	#------ As proximas linhas modificam o dicionário no caso da tabela possuir cabeçalho.
 	cond = cut[0]
 	try:
@@ -34,7 +37,8 @@ if __name__ == '__main__':
 	while cond2=='s':
 		try:
 			nm= input('Digite o nome do arquivo|tabela. ') 
-			print(read_files(nm))
+			par = input(' Tipo de espaçamento ')
+			print(read_files(nm),par)
 			break
 		except:
 			print('\nArquivo não existe ou nome inválido.')	
