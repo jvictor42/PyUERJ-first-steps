@@ -1,5 +1,5 @@
-#Aula 16 exercicio 2
-#Adicionar 3 metodos novos. Refexão do ponto em x, inclinação da reta e eq. da reta entre 2 pontos.
+#Aula 16 exercicio 1,2,3,4
+#Adicionar 4 metodos novos. Distancia entre 2 pontos, Refexão do ponto em x, inclinação da reta e eq. da reta entre 2 pontos.
 class ponto:
 	def __init__(self, x=0, y=0):
 #__int__ é o nome da variavel especial do python, assim como o main uasdo em modulo.
