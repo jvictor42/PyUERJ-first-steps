@@ -1,5 +1,5 @@
-#projeto 2.6
-#Nesse projeto trabalhamos com colisões relativística. Abrange o caso do efeito compton e o de aniquilação pósitron-elétron
+#projeto 2
+#Nesse projeto trabalhamos com colisões relativística. Especificamente no do espalhamento compton. Um caso de colisão relativística eslástica.
 
 #-----Modulos e classes ---------
 from particula import *
@@ -27,15 +27,15 @@ def e_p_annihilation(theta,Ep,Ee):
 	Ef = Ee/(1-k*math.cos(math.radians(theta)))
 	return Ef
 
-def plot_graf(listcomp, namex, namey, labelname, part):
+def plot_graf(listcomp, namex, namey,system, part):
     cont = 0
     for n in range(cond1):
-        lx = listcomp[cont] ; ly = listcomp[(cont + part)]
-        plt.plot(lx,ly , label = labelname + str(n))
+        lx = np.array(listcomp[cont]) ; ly = np.array(listcomp[(cont + part)])
+        plt.plot(lx,ly , label = 'Collision ' + str(n))
         plt.xlabel(namex)
         plt.ylabel(namey)
         cont = cont + 5
-    plt.title('Effect Compton ')
+    plt.title(system)
     plt.legend()
     plt.show()
     plt.savefig("grafico.png")
@@ -78,7 +78,7 @@ while cond3 =='s':  #------loop com o fim do programa----
 				pe = electron_momentum(f1.E,f2.E,theta) ; pe = round(pe,3)
 				e2 = particle(0.511,pe)
 				l1.append(theta) ; l3.append(f2.E) ; l4.append(e2.E) ; l5.append(e2.p)		
-				theta = theta + 1 
+				theta = float(theta) + 1; theta = round(theta,3)
 
 		elif cond0 == '2':  #-----aniquilação ----
 			p1 = particle(0.511,p)
@@ -88,7 +88,7 @@ while cond3 =='s':  #------loop com o fim do programa----
 				Ef = e_p_annihilation(theta,p1.E,e1.E) ; Ef = round(Ef,3)
 				f1 = particle(0,Ef)
 				l1.append(theta) ; l3.append(f1.E)		
-				theta = theta + 1 
+				theta = float(theta) + 1; theta = round(theta,3)
 		add()
 
 	#------Gráfico----------- 
@@ -100,12 +100,13 @@ while cond3 =='s':  #------loop com o fim do programa----
 				nn = i -1
 				print('[{}] = {} X {}'.format(nn,llabel[i],llabel[0]))	   
 			cont2 = int(input('Escolha: ')) ; cont2= cont2 + 1
-			plot_graf(lc, llabel[0],llabel[cont2],llabel[1], cont2)
+			plot_graf(lc, llabel[0],llabel[cont2],'Effect Compton', cont2)
 			cond2 = input('\nDeseja ver outro gráfico? [s/n] ')
 
 	elif cond0 == '2':  #-----aniquilação ----
-		plot_graf(lc, llabel[0],llabel[2],llabel[1], 2)
+		plot_graf(lc, llabel[0],llabel[2],'e- e+ annihilation', 2)
 	cond3 = input('Voltar pro inicio? [s/n] ')
+	lc = []
 print('Bye')
 
 		
