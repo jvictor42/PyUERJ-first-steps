@@ -1,4 +1,4 @@
-#projeto 2
+#projeto 2.5
 #Nesse projeto trabalhamos com colisões relativística. Especificamente no do espalhamento compton. Um caso de colisão relativística eslástica.
 
 #-----Modulos e classes ---------
@@ -59,7 +59,7 @@ elif (limit - cond1) <10:
 
 for i in range(cond1):
         l1 = [] ; l2 = [] ; l3 = [] ; l4 = [] ; l5 = [] #listas auxiliares
-        p = randint(1,limit)/10
+        p = randint(1,limit)/5
         f1 = particle(0,p)
         e1 = particle(0.511,0)
         l2.append(f1.fourmoment()) ; theta=0
@@ -69,7 +69,7 @@ for i in range(cond1):
                 pe = eletron_momentum(f1.E,f2.E,theta) ; pe = round(pe,3)
                 e2 = particle(0.511,pe)
                 l1.append(theta) ; l3.append(f2.E) ; l4.append(e2.E) ; l5.append(e2.p)		
-                theta = theta + 1 ; theta = round(theta,3)
+                theta = theta + 1 
         add()
 #------Gráfico----------- 
 cond2 = 's'
