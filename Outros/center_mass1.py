@@ -1,4 +1,4 @@
-#programa Centro de Massa
+#programa Centro de Massa 1
 import math
 def c_m(l1,l2):
     soma_pesos = sum(l1)
@@ -30,6 +30,7 @@ while cond !=1:
 	
 pos_x = c_m(listL,listx)
 pos_y = c_m(listL,listy)
-print('Centro de Luminosidade x={} e y={}'.format(pos_x,pos_y))
+print('Centro de Massa x={} e y={}'.format(pos_x,pos_y))
+
 
 
